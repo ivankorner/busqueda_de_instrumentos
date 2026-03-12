@@ -259,5 +259,6 @@ try {
         <a href="resultados.php" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
+    <?php require_once 'vistas/Footer.php'; ?>
 </body>
 </html>

@@ -37,5 +37,6 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
         </form>
         <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
     </div>
+    <?php require_once 'vistas/Footer.php'; ?>
 </body>
 </html>

@@ -267,16 +267,7 @@ $isLoggedIn = false;
         <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
         
     </div>
-   <footer>
-        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-            <p class="mb-2 mb-md-0">Concejo Deliberante Eldorado &copy; 2025. Todos los derechos reservados.</p>
-            <?php if (!$isLoggedIn): ?>
-                
-            <?php else: ?>
-                <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
-            <?php endif; ?>
-        </div>
-    </footer>
+<?php require_once 'vistas/Footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
