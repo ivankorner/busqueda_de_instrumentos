@@ -138,7 +138,7 @@ if (!isset($_SESSION['captcha_busqueda']) || isset($_GET['new_captcha'])) {
                 <div class="col-12 col-md-4">
                     <div class="card shadow-sm">
                         <div class="card-body d-flex flex-column">
-                            <h1 class="mb-4 fs-4">Cargar Datos Modificado</h1>
+                            <h1 class="mb-4 fs-4">Cargar Datos Modificado2</h1>
                             <a href="carga_datos.php" class="btn btn-warning mt-auto">Carga de datos</a>
                         </div>
                     </div>
