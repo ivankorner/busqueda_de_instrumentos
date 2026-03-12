@@ -235,10 +235,10 @@ if (!empty($results)) {
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Nº</th>
-                            <th>Descripción</th>
                             <th>Instrumento</th>
+                            <th>Nº</th>
                             <th>Año</th>
+                            <th>Descripción</th>
                             <th></th>
                             <th>Anexos</th>
                             <?php if ($isLoggedIn): ?>
@@ -249,10 +249,10 @@ if (!empty($results)) {
                     <tbody>
                         <?php foreach ($results as $row): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($row['name']); ?></td>
-                                <td><?php echo htmlspecialchars($row['descripcion']); ?></td>
                                 <td><?php echo htmlspecialchars($row['instrumento']); ?></td>
+                                <td><?php echo htmlspecialchars($row['name']); ?></td>
                                 <td><?php echo htmlspecialchars($row['year']); ?></td>
+                                <td><?php echo htmlspecialchars($row['descripcion']); ?></td>
                                 <td>
                                     <?php if (!empty($row['file_path'])): ?>
                                         <a href="<?php echo htmlspecialchars($row['file_path']); ?>" target="_blank" class="btn btn-primary btn-sm" title="Ver archivo">
