@@ -33,10 +33,30 @@ function generarCaptcha($length = 4) {
 }
 $_SESSION['captcha_busqueda'] = generarCaptcha();
 
+
 // Verificar que al menos un campo de búsqueda esté lleno
 $hasSearchCriteria = !empty($_GET['global_search']) || !empty($_GET['name']) || 
                      !empty($_GET['descripcion']) || !empty($_GET['instrumento']) || 
                      !empty($_GET['year']);
+
+// Función para construir el título de búsqueda
+function construirTituloBusqueda($get) {
+    $instrumento = isset($get['instrumento']) && $get['instrumento'] !== '' ? $get['instrumento'] : null;
+    $anio = isset($get['year']) && $get['year'] !== '' ? $get['year'] : null;
+
+    if ($instrumento && $anio) {
+        return "Resultados de búsqueda de $instrumento del año $anio";
+    } elseif ($instrumento) {
+        return "Resultados de búsqueda de $instrumento de todos los años";
+    } elseif ($anio) {
+        return "Resultados de búsqueda de todos los instrumentos del año $anio";
+    } else {
+        return "Resultados de Búsqueda";
+    }
+}
+
+// Guardar el título para usarlo en el <title> y <h1>
+$tituloBusqueda = construirTituloBusqueda($_GET);
 
 if (!$hasSearchCriteria) {
     $_SESSION['error'] = 'Debe completar al menos un campo de búsqueda.';
@@ -146,7 +166,7 @@ if (!empty($results)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados de Búsqueda</title>
+    <title><?php echo htmlspecialchars($tituloBusqueda); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
@@ -222,7 +242,7 @@ if (!empty($results)) {
 
 
     <div class="container mt-4 mb-5" >
-        <h1 class="mb-4">Resultados de Búsqueda</h1>
+        <h1 class="mb-4"><?php echo htmlspecialchars($tituloBusqueda); ?></h1>
         <!-- Selector de cantidad de resultados -->
         <form method="get" class="mb-3 d-flex align-items-center" style="gap: 1rem;">
             <?php foreach ($_GET as $key => $value): ?>
