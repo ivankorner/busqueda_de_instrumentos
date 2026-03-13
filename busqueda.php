@@ -57,41 +57,51 @@
                 <div class="col-12 col-md-10 col-lg-8">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h1 class="mb-4 fs-4">Búsqueda de Instrumentos</h1>
+                            <h1 class="mb-4 fs-4 text-center">Búsqueda de Instrumentos</h1>
                             <form action="resultadosAdmin.php" method="get">
                                 <div class="mb-4">
-                                    <label for="global_search" class="form-label">Búsqueda General:</label>
                                     <input type="text" name="global_search" id="global_search" class="form-control search-main" placeholder="Ingrese cualquier texto o número">
                                 </div>
-                                <div class="row">
-                                    <div class="col-12 col-md-4 mb-3">
-                                        <label for="name" class="form-label search-secondary">Número</label>
-                                        <input type="text" name="name" id="name" class="form-control search-secondary" placeholder="Número del instrumento">
-                                    </div>
-                                    <div class="col-12 col-md-4 mb-3">
-                                        <label for="instrumento" class="form-label search-secondary">Instrumento:</label>
-                                        <select name="instrumento" id="instrumento" class="form-select search-secondary">
-                                            <option value="">Seleccione un instrumento</option>
-                                            <option value="Ordenanza">Ordenanza</option>
-                                            <option value="Resolucion">Resolución</option>
-                                            <option value="Declaracion">Declaración</option>
-                                            <option value="Comunicacion">Comunicación</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-4 mb-3">
-                                        <label for="year" class="form-label search-secondary">Año:</label>
-                                        <select name="year" id="year" class="form-select search-secondary">
-                                            <option value="">Seleccione un año</option>
-                                            <?php
-                                            $currentYear = (int) date('Y');
-                                            for ($year = $currentYear; $year >= 1973; $year--) {
-                                                echo "<option value=\"$year\">$year</option>";
-                                            }
-                                            ?>
-                                        </select>
+                                <div class="collapse" id="advancedSearch">
+                                    <div class="row mt-3">
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label for="name" class="form-label search-secondary">Número</label>
+                                            <input type="text" name="name" id="name" class="form-control search-secondary" placeholder="Número del instrumento">
+                                        </div>
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label for="instrumento" class="form-label search-secondary">Instrumento</label>
+                                            <select name="instrumento" id="instrumento" class="form-select search-secondary">
+                                                <option value="">Seleccione un instrumento</option>
+                                                <option value="Ordenanza">Ordenanza</option>
+                                                <option value="Resolucion">Resolución</option>
+                                                <option value="Declaracion">Declaración</option>
+                                                <option value="Comunicacion">Comunicación</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label for="year" class="form-label search-secondary">Año</label>
+                                            <select name="year" id="year" class="form-select search-secondary">
+                                                <option value="">Seleccione un año</option>
+                                                <?php
+                                                $currentYear = (int) date('Y');
+                                                for ($year = $currentYear; $year >= 1973; $year--) {
+                                                    echo "<option value=\"$year\">$year</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 mt-3">Buscar</button>
+                                <div class="row align-items-end">
+                                    <div class="col-md-6 mb-3">
+                                        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <button class="btn btn-outline-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#advancedSearch" aria-expanded="false" aria-controls="advancedSearch" title="Más opciones de búsqueda">
+                                            + filtros
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                              <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
                         </div>

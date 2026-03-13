@@ -47,7 +47,8 @@ if (!isset($_SESSION['captcha_busqueda']) || isset($_GET['new_captcha'])) {
         </div>
     </nav>
 
-    <div class="container-fluid mt-4 mb-5 d-flex flex-column flex-grow-1" style="min-height: 80vh;">
+    <main class="flex-grow-1">
+        <div class="container-fluid mt-4">
         <?php if ($isLoggedIn): ?>
 
 
@@ -91,54 +92,67 @@ if (!isset($_SESSION['captcha_busqueda']) || isset($_GET['new_captcha'])) {
                 <div class="col-12 col-md-10 col-lg-8">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h1 class="mb-4 fs-4">Búsqueda de Instrumentos</h1>
+                            <h1 class="mb-4 fs-4 text-center">Búsqueda de Instrumentos</h1>
                             <form action="resultados.php" method="get" id="form-busqueda">
                                 <div class="mb-4">
-                                    <label for="global_search" class="form-label">Búsqueda General:</label>
                                     <input type="text" name="global_search" id="global_search" class="form-control search-main" placeholder="Ingrese cualquier texto o número">
                                 </div>
-                                <div class="row">
-                                    <div class="col-12 col-md-4 mb-3">
-                                        <label for="name" class="form-label search-secondary">Número</label>
-                                        <input type="text" name="name" id="name" class="form-control search-secondary" placeholder="Número del instrumento">
-                                    </div>
-                                    <div class="col-12 col-md-4 mb-3">
-                                        <label for="instrumento" class="form-label search-secondary">Instrumento:</label>
-                                        <select name="instrumento" id="instrumento" class="form-select search-secondary">
-                                            <option value="">Seleccione un instrumento</option>
-                                            <option value="Ordenanza">Ordenanza</option>
-                                            <option value="Resolucion">Resolución</option>
-                                            <option value="Declaracion">Declaración</option>
-                                            <option value="Comunicacion">Comunicación</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-4 mb-3">
-                                        <label for="year" class="form-label search-secondary">Año:</label>
-                                        <select name="year" id="year" class="form-select search-secondary">
-                                            <option value="">Seleccione un año</option>
-                                            <?php
-                                            $currentYear = (int) date('Y');
-                                            $startYear = 1973;
-                                            for ($year = $currentYear; $year >= $startYear; $year--) {
-                                                echo "<option value=\"$year\">$year</option>";
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Captcha:</label>
-                                    <div class="d-flex align-items-center gap-2 mb-2">
-                                        <div class="captcha-box" style="font-family: 'Courier New', Courier, monospace; font-size: 1.5rem; letter-spacing: 4px; background: #e9ecef; padding: 8px 16px; border-radius: 6px; display: inline-block; user-select: none;">
-                                            <?php echo $_SESSION['captcha_busqueda']; ?>
+                                <div class="collapse-container">
+                                    <div class="collapse" id="advancedSearch">
+                                        <div class="row mt-3">
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label for="name" class="form-label search-secondary">Número</label>
+                                            <input type="text" name="name" id="name" class="form-control search-secondary" placeholder="Número del instrumento">
                                         </div>
-                                        <a href="?new_captcha=1" class="btn btn-outline-secondary btn-sm" title="Generar nuevo captcha">
-                                            <i class="fas fa-sync-alt"></i>
-                                        </a>
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label for="instrumento" class="form-label search-secondary">Instrumento</label>
+                                            <select name="instrumento" id="instrumento" class="form-select search-secondary">
+                                                <option value="">Seleccione un instrumento</option>
+                                                <option value="Ordenanza">Ordenanza</option>
+                                                <option value="Resolucion">Resolución</option>
+                                                <option value="Declaracion">Declaración</option>
+                                                <option value="Comunicacion">Comunicación</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label for="year" class="form-label search-secondary">Año</label>
+                                            <select name="year" id="year" class="form-select search-secondary">
+                                                <option value="">Seleccione un año</option>
+                                                <?php
+                                                $currentYear = (int) date('Y');
+                                                $startYear = 1973;
+                                                for ($year = $currentYear; $year >= $startYear; $year--) {
+                                                    echo "<option value=\"$year\">$year</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <input type="text" name="captcha_input" id="captcha_input" class="form-control mt-2" placeholder="Ingrese el texto mostrado" required pattern="[A-Za-z0-9]{4}">
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 mt-3">Buscar</button>
+                                <div class="row align-items-center">
+                                    <div class="col-md-3 mb-3">
+                                        <div class="captcha-container border p-3 rounded text-center">
+                                            <label class="form-label w-100">Complete el captcha</label>
+                                            <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                                                <div class="captcha-box">
+                                                    <?php echo $_SESSION['captcha_busqueda']; ?>
+                                                </div>
+                                                <a href="?new_captcha=1" class="btn btn-outline-secondary btn-sm" title="Generar nuevo captcha">
+                                                    <i class="fas fa-sync-alt"></i>
+                                                </a>
+                                            </div>
+                                            <input type="text" name="captcha_input" id="captcha_input" class="form-control" placeholder="Ingrese el texto" required pattern="[A-Za-z0-9]{4}" maxlength="4">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <button class="btn btn-outline-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#advancedSearch" aria-expanded="false" aria-controls="advancedSearch" title="Más opciones de búsqueda">
+                                            + Filtros
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -146,7 +160,8 @@ if (!isset($_SESSION['captcha_busqueda']) || isset($_GET['new_captcha'])) {
             </div>
         <?php endif; ?>
         
-    </div>
+        </div>
+    </main>
 
     <?php require_once 'vistas/Footer.php'; ?>
 

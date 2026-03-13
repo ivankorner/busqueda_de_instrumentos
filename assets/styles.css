@@ -94,6 +94,32 @@ footer {
     border: 1px solid var(--card-border);
 }
 
+.captcha-container {
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0.25);
+    background-color: #82C8E5; /* color cercano al logo */
+}
+
+.captcha-box {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    user-select: none;
+}
+
+.collapse-container {
+    min-height: 200px;
+}
+
+.collapse-container .collapse {
+    transition: height 0.2s ease;
+}
+
 .search-main {
     font-size: 1.2rem;
     padding: 0.75rem;
