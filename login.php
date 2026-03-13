@@ -33,34 +33,7 @@ $_SESSION['captcha'] = generarCaptcha();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-        }
-        .card {
-            margin-top: 10%;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
-        .captcha-box {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.5rem;
-            letter-spacing: 4px;
-            background: #e9ecef;
-            padding: 8px 16px;
-            border-radius: 6px;
-            display: inline-block;
-            user-select: none;
-        }
-    </style>
+    <link href="assets/styles.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">

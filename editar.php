@@ -171,6 +171,7 @@ try {
     <meta charset="UTF-8">
     <title>Editar Registro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/styles.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">

@@ -1,0 +1,127 @@
+:root {
+    --bg: #f3f6fb;
+    --header: #0b3d6b;
+    --footer: #0b3d6b;
+    --primary: #0056b3;
+    --primary-hover: #004494;
+    --secondary: #5a6268;
+    --secondary-hover: #4a525c;
+    --warning: #ffb300;
+    --warning-hover: #e0a800;
+    --danger: #dc3545;
+    --danger-hover: #bd2130;
+    --text-light: #ffffff;
+    --text-dark: #1f2a38;
+    --card-bg: #ffffff;
+    --card-border: rgba(0, 0, 0, 0.08);
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text-dark);
+    font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+    background-color: var(--header) !important;
+}
+
+.navbar .navbar-brand,
+.navbar .navbar-text,
+.navbar .nav-link,
+.navbar .text-dark {
+    color: var(--text-light) !important;
+}
+
+.navbar .navbar-brand:hover,
+.navbar .nav-link:hover {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+footer {
+    background-color: var(--footer);
+    color: var(--text-light);
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.btn-secondary {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background-color: var(--secondary-hover);
+    border-color: var(--secondary-hover);
+}
+
+.btn-warning {
+    background-color: var(--warning);
+    border-color: var(--warning);
+}
+
+.btn-warning:hover,
+.btn-warning:focus {
+    background-color: var(--warning-hover);
+    border-color: var(--warning-hover);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    border-color: var(--danger);
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+    background-color: var(--danger-hover);
+    border-color: var(--danger-hover);
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+}
+
+.search-main {
+    font-size: 1.2rem;
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+}
+
+.search-secondary {
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+@media (max-width: 576px) {
+    .search-main {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+
+    .search-secondary {
+        font-size: 0.9rem;
+    }
+
+    .navbar-brand img {
+        width: 50px;
+        height: 35px;
+    }
+}

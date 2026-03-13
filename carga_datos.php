@@ -144,58 +144,12 @@ $isLoggedIn = false;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carga de Datos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #ffffff;
-            font-family: 'Arial', sans-serif;
-        }
-        .navbar {
-            background-color: #343a40;
-        }
-        .navbar-brand {
-            color: #ffffff;
-            font-weight: bold;
-        }
-        .navbar-brand:hover {
-            color: #ffc107;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #545b62;
-        }
-        .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-        }
-        .btn-warning:hover {
-            background-color: #e0a800;
-            border-color: #d39e00;
-        }
-        footer {
-            background-color: #343a40;
-            color: #ffffff;
-            padding: 1rem 0;
-            text-align: center;
-            margin-top: 2rem;
-        }
-    </style>
+    <link href="assets/styles.css" rel="stylesheet">
 </head>
 <body>
     
 
-     <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
+     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <span class="navbar-brand d-flex align-items-center">
                 <img src="./inclusiones/logocde.png" alt="Logo CDE" width="75" height="50" class="me-2">

@@ -14,7 +14,7 @@ $isLoggedIn = isset($_SESSION) && isset($_SESSION['logged_in']) && $_SESSION['lo
         margin-top: auto;
     }
 </style>
-<footer style="background-color: #343a40; color: #ffffff; padding: 1rem 0; text-align: center;">
+<footer>
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
         <p class="mb-2 mb-md-0">Concejo Deliberante Eldorado &copy; <?php echo date('Y'); ?>. Todos los derechos reservados.</p>
         <?php if ($isLoggedIn): ?>
