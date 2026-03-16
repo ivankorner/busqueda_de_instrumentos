@@ -70,12 +70,11 @@
                                         </div>
                                         <div class="col-12 col-md-4 mb-3">
                                             <label for="instrumento" class="form-label search-secondary">Instrumento</label>
-                                            <select name="instrumento" id="instrumento" class="form-select search-secondary">
-                                                <option value="">Seleccione un instrumento</option>
-                                                <option value="Ordenanza">Ordenanza</option>
-                                                <option value="Resolucion">Resolución</option>
-                                                <option value="Declaracion">Declaración</option>
-                                                <option value="Comunicacion">Comunicación</option>
+                                            <select name="instrumento[]" id="instrumento" class="form-select search-secondary" multiple size="4">
+                                                <option value="Ordenanza" <?php if (isset($_GET['instrumento']) && in_array('Ordenanza', (array)$_GET['instrumento'])) echo 'selected'; ?>>Ordenanza</option>
+                                                <option value="Resolucion" <?php if (isset($_GET['instrumento']) && in_array('Resolucion', (array)$_GET['instrumento'])) echo 'selected'; ?>>Resolución</option>
+                                                <option value="Declaracion" <?php if (isset($_GET['instrumento']) && in_array('Declaracion', (array)$_GET['instrumento'])) echo 'selected'; ?>>Declaración</option>
+                                                <option value="Comunicacion" <?php if (isset($_GET['instrumento']) && in_array('Comunicacion', (array)$_GET['instrumento'])) echo 'selected'; ?>>Comunicación</option>
                                             </select>
                                         </div>
                                         <div class="col-12 col-md-4 mb-3">

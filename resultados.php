@@ -41,7 +41,14 @@ $hasSearchCriteria = !empty($_GET['global_search']) || !empty($_GET['name']) ||
 
 // Función para construir el título de búsqueda
 function construirTituloBusqueda($get) {
-    $instrumento = isset($get['instrumento']) && $get['instrumento'] !== '' ? $get['instrumento'] : null;
+    $instrumento = null;
+    if (isset($get['instrumento'])) {
+        $instrumentos = (array) $get['instrumento'];
+        $instrumentos = array_filter($instrumentos, fn($item) => $item !== '');
+        if (!empty($instrumentos)) {
+            $instrumento = implode(', ', $instrumentos);
+        }
+    }
     $anio = isset($get['year']) && $get['year'] !== '' ? $get['year'] : null;
 
     if ($instrumento && $anio) {
@@ -88,8 +95,20 @@ if (!empty($_GET['descripcion'])) {
     $params[':descripcion'] = $_GET['descripcion'];
 }
 if (!empty($_GET['instrumento'])) {
-    $sql .= " AND instrumento = :instrumento";
-    $params[':instrumento'] = $_GET['instrumento'];
+    $instrumentos = (array) $_GET['instrumento'];
+    $instrumentos = array_filter($instrumentos, fn($item) => $item !== '');
+    if (!empty($instrumentos)) {
+        if (count($instrumentos) === 1) {
+            $sql .= " AND instrumento = :instrumento";
+            $params[':instrumento'] = $instrumentos[0];
+        } else {
+            $placeholders = implode(',', array_map(fn($i) => ':instrumento_' . $i, array_keys($instrumentos)));
+            $sql .= " AND instrumento IN ($placeholders)";
+            foreach ($instrumentos as $idx => $valor) {
+                $params[':instrumento_' . $idx] = $valor;
+            }
+        }
+    }
 }
 if (!empty($_GET['year'])) {
     $sql .= " AND year = :year";
@@ -118,7 +137,16 @@ if (!empty($_GET['descripcion'])) {
     $countSql .= " AND descripcion = :descripcion";
 }
 if (!empty($_GET['instrumento'])) {
-    $countSql .= " AND instrumento = :instrumento";
+    $instrumentos = (array) $_GET['instrumento'];
+    $instrumentos = array_filter($instrumentos, fn($item) => $item !== '');
+    if (!empty($instrumentos)) {
+        if (count($instrumentos) === 1) {
+            $countSql .= " AND instrumento = :instrumento";
+        } else {
+            $placeholders = implode(',', array_map(fn($i) => ':instrumento_' . $i, array_keys($instrumentos)));
+            $countSql .= " AND instrumento IN ($placeholders)";
+        }
+    }
 }
 if (!empty($_GET['year'])) {
     $countSql .= " AND year = :year";
@@ -202,7 +230,13 @@ if (!empty($results)) {
         <form method="get" class="mb-3 d-flex align-items-center" style="gap: 1rem;">
             <?php foreach ($_GET as $key => $value): ?>
                 <?php if ($key !== 'per_page' && $key !== 'page'): ?>
-                    <input type="hidden" name="<?php echo htmlspecialchars($key); ?>" value="<?php echo htmlspecialchars($value); ?>">
+                    <?php if (is_array($value)): ?>
+                        <?php foreach ($value as $subValue): ?>
+                            <input type="hidden" name="<?php echo htmlspecialchars($key); ?>[]" value="<?php echo htmlspecialchars($subValue); ?>">
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <input type="hidden" name="<?php echo htmlspecialchars($key); ?>" value="<?php echo htmlspecialchars($value); ?>">
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php endforeach; ?>
             <label for="per_page" class="mb-0">Mostrar</label>
