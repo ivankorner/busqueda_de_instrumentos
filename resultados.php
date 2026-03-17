@@ -12,14 +12,20 @@ try {
     die("Error al conectar a la base de datos: " . $e->getMessage());
 }
 
-// Verificar captcha
-if (
-    !isset($_GET['captcha_input']) ||
-    strcasecmp($_GET['captcha_input'], $_SESSION['captcha_busqueda']) !== 0
-) {
-    $_SESSION['error'] = 'Captcha incorrecto. Intente nuevamente.';
-    header('Location: index.php');
-    exit;
+// Verificar captcha solo en la búsqueda inicial.
+// En paginación/cambio de cantidad por página no se vuelve a mostrar captcha.
+$isResultsNavigation = isset($_GET['page']) || isset($_GET['per_page']);
+
+if (!$isResultsNavigation) {
+    if (
+        !isset($_GET['captcha_input']) ||
+        !isset($_SESSION['captcha_busqueda']) ||
+        strcasecmp($_GET['captcha_input'], $_SESSION['captcha_busqueda']) !== 0
+    ) {
+        $_SESSION['error'] = 'Captcha incorrecto. Intente nuevamente.';
+        header('Location: index.php');
+        exit;
+    }
 }
 
 // Generar nuevo captcha para la próxima búsqueda
