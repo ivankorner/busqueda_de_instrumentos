@@ -209,7 +209,7 @@ if (!empty($results)) {
      <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <span class="navbar-brand d-flex align-items-center">
-                <img src="./inclusiones/logocde.png" alt="Logo CDE" width="75" height="50" class="me-2">
+                <img src="./inclusiones/logocde-b.png" alt="Logo CDE" width="150" height="100" class="me-2">
                 
             </span>
             <?php if ($isLoggedIn): ?>
