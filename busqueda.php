@@ -69,13 +69,30 @@
                                             <input type="text" name="name" id="name" class="form-control search-secondary" placeholder="Número del instrumento">
                                         </div>
                                         <div class="col-12 col-md-4 mb-3">
-                                            <label for="instrumento" class="form-label search-secondary">Instrumento</label>
-                                            <select name="instrumento[]" id="instrumento" class="form-select search-secondary" multiple size="4">
-                                                <option value="Ordenanza" <?php if (isset($_GET['instrumento']) && in_array('Ordenanza', (array)$_GET['instrumento'])) echo 'selected'; ?>>Ordenanza</option>
-                                                <option value="Resolucion" <?php if (isset($_GET['instrumento']) && in_array('Resolucion', (array)$_GET['instrumento'])) echo 'selected'; ?>>Resolución</option>
-                                                <option value="Declaracion" <?php if (isset($_GET['instrumento']) && in_array('Declaracion', (array)$_GET['instrumento'])) echo 'selected'; ?>>Declaración</option>
-                                                <option value="Comunicacion" <?php if (isset($_GET['instrumento']) && in_array('Comunicacion', (array)$_GET['instrumento'])) echo 'selected'; ?>>Comunicación</option>
-                                            </select>
+                                            <label class="form-label search-secondary d-block">Instrumento</label>
+                                            <div class="dropdown w-100">
+                                                <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start" type="button" id="instrumentoDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                                    Seleccione instrumentos
+                                                </button>
+                                                <div class="dropdown-menu w-100 p-3" aria-labelledby="instrumentoDropdown">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input instrumento-check" type="checkbox" name="instrumento[]" value="Ordenanza" id="instrumento_ordenanza" <?php if (isset($_GET['instrumento']) && in_array('Ordenanza', (array)$_GET['instrumento'])) echo 'checked'; ?>>
+                                                        <label class="form-check-label" for="instrumento_ordenanza">Ordenanza</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input instrumento-check" type="checkbox" name="instrumento[]" value="Resolucion" id="instrumento_resolucion" <?php if (isset($_GET['instrumento']) && in_array('Resolucion', (array)$_GET['instrumento'])) echo 'checked'; ?>>
+                                                        <label class="form-check-label" for="instrumento_resolucion">Resolución</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input instrumento-check" type="checkbox" name="instrumento[]" value="Declaracion" id="instrumento_declaracion" <?php if (isset($_GET['instrumento']) && in_array('Declaracion', (array)$_GET['instrumento'])) echo 'checked'; ?>>
+                                                        <label class="form-check-label" for="instrumento_declaracion">Declaración</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input instrumento-check" type="checkbox" name="instrumento[]" value="Comunicacion" id="instrumento_comunicacion" <?php if (isset($_GET['instrumento']) && in_array('Comunicacion', (array)$_GET['instrumento'])) echo 'checked'; ?>>
+                                                        <label class="form-check-label" for="instrumento_comunicacion">Comunicación</label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-12 col-md-4 mb-3">
                                             <label for="year" class="form-label search-secondary">Año</label>
@@ -119,6 +136,29 @@
     <?php require_once 'vistas/Footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var instrumentoChecks = document.querySelectorAll('.instrumento-check');
+            var instrumentoDropdown = document.getElementById('instrumentoDropdown');
+
+            function actualizarTextoInstrumentos() {
+                if (!instrumentoDropdown) return;
+                var seleccionados = Array.from(instrumentoChecks)
+                    .filter(function(check) { return check.checked; })
+                    .map(function(check) { return check.nextElementSibling.textContent.trim(); });
+
+                instrumentoDropdown.textContent = seleccionados.length
+                    ? seleccionados.join(', ')
+                    : 'Seleccione instrumentos';
+            }
+
+            instrumentoChecks.forEach(function(check) {
+                check.addEventListener('change', actualizarTextoInstrumentos);
+            });
+
+            actualizarTextoInstrumentos();
+        });
+    </script>
 </body>
 
 </html>
