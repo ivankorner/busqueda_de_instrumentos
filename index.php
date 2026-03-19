@@ -38,11 +38,11 @@ if (!isset($_SESSION['captcha_busqueda']) || isset($_GET['new_captcha'])) {
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <span class="navbar-brand d-flex align-items-center">
-                <img src="./inclusiones/logocde-b.png" alt="Logo CDE" width="150" height="100" class="me-2">
+                <img src="./inclusiones/logocde-b.png" alt="Logo CDE" width="120" height="80" class="me-2">
                 
             </span>
             <?php if ($isLoggedIn): ?>
-                <span class="text-dark ms-auto">Bienvenido, <?php echo htmlspecialchars($_SESSION['username']); ?>!</span>
+                <span class="text-dark ms-auto">Bienvenido, <?php echo htmlspecialchars(strtoupper($_SESSION['username'])); ?>!</span>
             <?php endif; ?>
         </div>
     </nav>
@@ -51,38 +51,25 @@ if (!isset($_SESSION['captcha_busqueda']) || isset($_GET['new_captcha'])) {
         <div class="container-fluid mt-4">
         <?php if ($isLoggedIn): ?>
 
-
-
-
-
-
-
-
-
-
-
             <div class="row g-3 flex-grow-1">
                 <div class="col-12 col-md-4">
                     <div class="card shadow-sm">
-                        <div class="card-body d-flex flex-column">
-                            <h1 class="mb-4 fs-4">Cargar Datos</h1>
-                            <a href="carga_datos.php" class="btn btn-warning mt-auto">Carga de datos</a>
+                        <div class="card-body d-flex flex-column" style="padding: 4px;">
+                            <a href="carga_datos.php" class="btn btn-warning mt-auto" style="line-height: 90px;font-size: 20px;">Carga de Datos</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="card shadow-sm">
-                        <div class="card-body d-flex flex-column">
-                            <h1 class="mb-4 fs-4">Gestión de Usuarios</h1>
-                            <a href="procesar_crear_usuario.php" class="btn btn-primary mt-auto">Gestión de Usuarios</a>
+                        <div class="card-body d-flex flex-column" style="padding: 4px;">
+                            <a href="procesar_crear_usuario.php" class="btn btn-primary mt-auto" style="line-height: 90px;font-size: 20px;">Gestión de Usuarios</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="card shadow-sm">
-                        <div class="card-body d-flex flex-column">
-                            <h1 class="mb-4 fs-4">Búsqueda de Datos</h1>
-                            <a href="busqueda.php" class="btn btn-secondary mt-auto">Búsqueda</a>
+                        <div class="card-body d-flex flex-column" style="padding: 4px;">
+                            <a href="busqueda.php" class="btn btn-secondary mt-auto" style="line-height: 90px;font-size: 20px;">Búsqueda de Datos</a>
                         </div>
                     </div>
                 </div>
