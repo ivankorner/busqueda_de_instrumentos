@@ -298,7 +298,7 @@ if (!empty($results)) {
             </div>
         <?php endif; ?>
         
-        <a href="index.php" class="btn btn-secondary mt-3">Volver a la Búsqueda</a>
+        <a href="busqueda.php" class="btn btn-secondary mt-3">Volver a la Búsqueda</a>
     </div>
 
     <?php require_once 'vistas/Footer.php'; ?>

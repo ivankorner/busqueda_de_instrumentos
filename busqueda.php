@@ -46,7 +46,7 @@
 
         <?php else: ?>
 
-            <div class="container-fluid mt-4 mb-5 d-flex flex-column flex-grow-1" style="min-height: 80vh;">
+            <div class="container-fluid mb-5 d-flex flex-column flex-grow-1">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-10 col-lg-8">
                         <div class="card shadow-sm">
@@ -113,9 +113,9 @@
                                         </div>
                                     </div>
                                 </form>
-                                <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
                             </div>
                         </div>
+                        <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
                     </div>
                 </div>
             </div>
