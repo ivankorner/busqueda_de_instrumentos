@@ -36,9 +36,10 @@ $_SESSION['captcha'] = generarCaptcha();
     <link href="assets/styles.css" rel="stylesheet">
 </head>
 <body>
+    <?php require_once 'vistas/Header.php'; ?>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3">
                 <div class="card">
                     <div class="card-body">
                         <h1 class="text-center mb-4">Iniciar Sesión</h1>
@@ -52,9 +53,11 @@ $_SESSION['captcha'] = generarCaptcha();
                                 <input type="password" name="password" id="password" class="form-control" placeholder="Ingrese su contraseña" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Captcha:</label>
-                                <div class="captcha-box mb-2"><?php echo $_SESSION['captcha']; ?></div>
-                                <input type="text" name="captcha_input" id="captcha_input" class="form-control mt-2" placeholder="Ingrese el texto mostrado" required pattern="[A-Za-z0-9]{6}">
+                                <label class="form-label">Captcha</label>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="captcha-box mb-0"><?php echo $_SESSION['captcha']; ?></div>
+                                    <input type="text" name="captcha_input" id="captcha_input" class="form-control" placeholder="Ingrese el texto mostrado" required pattern="[A-Za-z0-9]{6}">
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                         </form>
