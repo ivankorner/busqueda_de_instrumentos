@@ -60,7 +60,7 @@
                                         <div class="row mt-3">
                                             <div class="col-12 col-md-4 mb-3">
                                                 <label for="name" class="form-label search-secondary">Número</label>
-                                                <input type="text" name="name" id="name" class="form-control search-secondary" placeholder="Número de instrumento">
+                                                <input type="text" name="name" id="name" class="form-control search-secondary" placeholder="Número de instrumento" inputmode="numeric" pattern="[0-9]*" maxlength="20">
                                             </div>
                                             <div class="col-12 col-md-4 mb-3">
                                                 <label class="form-label search-secondary d-block">Instrumento</label>
@@ -129,6 +129,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             var instrumentoChecks = document.querySelectorAll('.instrumento-check');
             var instrumentoDropdown = document.getElementById('instrumentoDropdown');
+            var numeroInput = document.getElementById('name');
 
             function actualizarTextoInstrumentos() {
                 if (!instrumentoDropdown) return;
@@ -138,6 +139,12 @@
                 instrumentoDropdown.textContent = seleccionados.length
                     ? seleccionados.join(', ')
                     : 'Seleccione instrumentos';
+            }
+
+            if (numeroInput) {
+                numeroInput.addEventListener('input', function() {
+                    this.value = this.value.replace(/\D/g, '');
+                });
             }
 
             instrumentoChecks.forEach(function(check) {
