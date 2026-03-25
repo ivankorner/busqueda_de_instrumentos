@@ -125,6 +125,13 @@ $countStmt->execute($countParams);
 $totalResults = $countStmt->fetchColumn();
 $totalPages = ceil($totalResults / $perPage);
 
+$maxVisiblePages = 4;
+$startPage = max(1, $page - floor($maxVisiblePages / 2));
+$endPage = min($totalPages, $startPage + $maxVisiblePages - 1);
+if (($endPage - $startPage + 1) < $maxVisiblePages) {
+    $startPage = max(1, $endPage - $maxVisiblePages + 1);
+}
+
 // Ordenar por número de instrumento (numéricamente) y luego por año descendente
 $sql .= " ORDER BY CAST(name AS UNSIGNED) ASC, CAST(year AS UNSIGNED) DESC";
 
@@ -168,6 +175,7 @@ if (!empty($results)) {
     <title><?php echo htmlspecialchars($tituloBusqueda); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="assets/styles.css" rel="stylesheet">
 </head>
 <body>
@@ -208,23 +216,6 @@ if (!empty($results)) {
             </select>
             <span>resultados por página</span>
         </form>
-        <!-- Paginador -->
-        <?php if ($totalPages > 1): ?>
-            <nav>
-                <ul class="pagination">
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-                            <a class="page-link" href="?<?php
-                                $query = $_GET;
-                                $query['page'] = $i;
-                                $query['per_page'] = $perPage;
-                                echo http_build_query($query);
-                            ?>"><?php echo $i; ?></a>
-                        </li>
-                    <?php endfor; ?>
-                </ul>
-            </nav>
-        <?php endif; ?>
         <!-- Mostrar mensajes de éxito o error -->
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success">
@@ -248,7 +239,7 @@ if (!empty($results)) {
                             <th>Nº</th>
                             <th>Año</th>
                             <th>Descripción</th>
-                            <th></th>
+                            <th>Ver</th>
                             <th>Anexos</th>
                             <?php if ($isLoggedIn): ?>
                                 <th>Acciones</th>
@@ -265,7 +256,7 @@ if (!empty($results)) {
                                 <td>
                                     <?php if (!empty($row['file_path'])): ?>
                                         <a href="<?php echo htmlspecialchars($row['file_path']); ?>" target="_blank" class="btn btn-primary btn-sm" title="Ver archivo">
-                                            <i class="fas fa-eye"></i>
+                                            <i class="fa-solid fa-file-pdf"></i>
                                         </a>
                                     <?php endif; ?>
                                 </td>
@@ -296,6 +287,52 @@ if (!empty($results)) {
                     </tbody>
                 </table>
             </div>
+
+            <!-- Paginador -->
+            <?php if ($totalPages > 1): ?>
+                <div class="table-responsive mb-3">
+                    <nav aria-label="Paginación de resultados">
+                        <ul class="pagination mb-0 flex-nowrap">
+                            <li class="page-item <?php echo $page <= 1 ? 'disabled' : ''; ?>">
+                                <a class="page-link" href="<?php echo $page <= 1 ? '#' : '?' . http_build_query(array_merge($_GET, ['page' => $page - 1, 'per_page' => $perPage])); ?>" <?php echo $page <= 1 ? 'tabindex="-1" aria-disabled="true"' : ''; ?>><</a>
+                            </li>
+
+                            <?php if ($startPage > 1): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?<?php echo http_build_query(array_merge($_GET, ['page' => 1, 'per_page' => $perPage])); ?>">1</a>
+                                </li>
+                                <?php if ($startPage > 2): ?>
+                                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
+                                <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                                    <a class="page-link" href="?<?php
+                                        $query = $_GET;
+                                        $query['page'] = $i;
+                                        $query['per_page'] = $perPage;
+                                        echo http_build_query($query);
+                                    ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php endfor; ?>
+
+                            <?php if ($endPage < $totalPages): ?>
+                                <?php if ($endPage < $totalPages - 1): ?>
+                                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                                <?php endif; ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?<?php echo http_build_query(array_merge($_GET, ['page' => $totalPages, 'per_page' => $perPage])); ?>"><?php echo $totalPages; ?></a>
+                                </li>
+                            <?php endif; ?>
+
+                            <li class="page-item <?php echo $page >= $totalPages ? 'disabled' : ''; ?>">
+                                <a class="page-link" href="<?php echo $page >= $totalPages ? '#' : '?' . http_build_query(array_merge($_GET, ['page' => $page + 1, 'per_page' => $perPage])); ?>" <?php echo $page >= $totalPages ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
         
         <a href="busqueda.php" class="btn btn-secondary mt-3">Volver a la Búsqueda</a>
