@@ -144,19 +144,24 @@ if ($action === 'list') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="assets/styles.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 <body>
-<div class="container">
+    <?php require_once 'vistas/Header.php'; ?>
+<div class="container mt-5">
+    <div class="container-fluid mb-5 d-flex flex-column flex-grow-1">
+    <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h1 class="h4 mb-0">Gestión de Usuarios</h1>
                 <div>
-                    <a href="?action=list" class="btn btn-secondary btn-sm">Listado</a>
+                    <!-- <a href="?action=list" class="btn btn-secondary btn-sm">Listado</a> -->
                     <a href="?action=create" class="btn btn-primary btn-sm">Crear usuario</a>
-                    <a href="index.php" class="btn btn-outline-secondary btn-sm">Inicio</a>
+                    <!-- <a href="index.php" class="btn btn-outline-secondary btn-sm">Inicio</a> -->
                 </div>
             </div>
 
@@ -184,7 +189,7 @@ if ($action === 'list') {
                             <tr>
                                 <th style="width: 80px;">ID</th>
                                 <th>Usuario</th>
-                                <th style="width: 200px;">Acciones</th>
+                                <th style="width: 80px;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -195,10 +200,12 @@ if ($action === 'list') {
                                     <td><?php echo (int)$u['id']; ?></td>
                                     <td><?php echo htmlspecialchars($u['username']); ?></td>
                                     <td>
-                                        <a href="?action=edit&id=<?php echo (int)$u['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
-                                        <form method="POST" action="?action=delete" class="d-inline form-delete">
+                                        <a href="?action=edit&id=<?php echo (int)$u['id']; ?>" class="btn btn-warning btn-sm" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form method="POST" action="?action=delete" class="d-inline form-delete" title ="Eliminar">
                                             <input type="hidden" name="id" value="<?php echo (int)$u['id']; ?>">
-                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -240,7 +247,12 @@ if ($action === 'list') {
             <?php endif; ?>
         </div>
     </div>
+    <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
+    </div>
+    </div>
+    </div>
 </div>
+<?php require_once 'vistas/Footer.php'; ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
