@@ -57,6 +57,16 @@ if (!empty($_GET['year'])) {
     $params[':year'] = $_GET['year'];
 }
 
+if (!empty($_GET['year_from'])) {
+    $sql .= " AND CAST(year AS UNSIGNED) >= :year_from";
+    $params[':year_from'] = (int) $_GET['year_from'];
+}
+
+if (!empty($_GET['year_to'])) {
+    $sql .= " AND CAST(year AS UNSIGNED) <= :year_to";
+    $params[':year_to'] = (int) $_GET['year_to'];
+}
+
 
 // Parámetros de paginación
 $perPageOptions = [300, 400, 500, 600, 700];
@@ -75,13 +85,26 @@ function construirTituloBusqueda($get) {
         }
     }
     $anio = isset($get['year']) && $get['year'] !== '' ? $get['year'] : null;
+    $anioDesde = isset($get['year_from']) && $get['year_from'] !== '' ? $get['year_from'] : null;
+    $anioHasta = isset($get['year_to']) && $get['year_to'] !== '' ? $get['year_to'] : null;
+    $anioTexto = null;
 
-    if ($instrumento && $anio) {
-        return "Resultados de búsqueda de $instrumento del año $anio";
+    if ($anioDesde && $anioHasta) {
+        $anioTexto = "desde $anioDesde hasta $anioHasta";
+    } elseif ($anioDesde) {
+        $anioTexto = "desde $anioDesde";
+    } elseif ($anioHasta) {
+        $anioTexto = "hasta $anioHasta";
+    } elseif ($anio) {
+        $anioTexto = "del año $anio";
+    }
+
+    if ($instrumento && $anioTexto) {
+        return "Resultados de búsqueda de $instrumento $anioTexto";
     } elseif ($instrumento) {
         return "Resultados de búsqueda de $instrumento de todos los años";
-    } elseif ($anio) {
-        return "Resultados de búsqueda de todos los instrumentos del año $anio";
+    } elseif ($anioTexto) {
+        return "Resultados de búsqueda de todos los instrumentos $anioTexto";
     } else {
         return "Resultados de Búsqueda";
     }
@@ -119,6 +142,12 @@ if (!empty($_GET['instrumento'])) {
 }
 if (!empty($_GET['year'])) {
     $countSql .= " AND year = :year";
+}
+if (!empty($_GET['year_from'])) {
+    $countSql .= " AND CAST(year AS UNSIGNED) >= :year_from";
+}
+if (!empty($_GET['year_to'])) {
+    $countSql .= " AND CAST(year AS UNSIGNED) <= :year_to";
 }
 $countStmt = $pdo->prepare($countSql);
 $countStmt->execute($countParams);
