@@ -257,7 +257,7 @@ try {
         </div>
 
         <button type="submit" class="btn btn-success">Guardar Cambios</button>
-        <a href="resultados.php" class="btn btn-secondary">Cancelar</a>
+        <a href="busqueda.php" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
     <?php require_once 'vistas/Footer.php'; ?>
