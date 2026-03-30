@@ -133,7 +133,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $_SESSION['success'] = "Registro actualizado correctamente.";
-    header('Location: resultados.php');
+    header('Location: busqueda.php');
+    unset($_SESSION['success']);
     exit;
 }
 

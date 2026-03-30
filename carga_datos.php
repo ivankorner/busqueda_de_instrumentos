@@ -164,65 +164,85 @@ $isLoggedIn = false;
         </div>
     </nav>
 
-    <div class="container mt-4 mb-5 ">
-        <h1 class="mb-4">Carga de Datos</h1>
+    <div class="container mt-5">
+        <div class="container-fluid mb-5 d-flex flex-column flex-grow-1">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h1 class="mb-4 fs-4 text-center">Carga de Datos</h1>
+                            <?php if (!empty($message)): ?>
+                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        Swal.fire({
+                                            icon: <?php echo (strpos($message, 'exitosamente') !== false) ? "'success'" : "'error'"; ?>,
+                                            title: <?php echo (strpos($message, 'exitosamente') !== false) ? "'Éxito'" : "'Error'"; ?>,
+                                            text: <?php echo json_encode($message); ?>,
+                                            confirmButtonColor: '#007bff'
+                                        });
+                                    });
+                                </script>
+                            <?php endif; ?>
 
-        <?php if (!empty($message)): ?>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    Swal.fire({
-                        icon: <?php echo (strpos($message, 'exitosamente') !== false) ? "'success'" : "'error'"; ?>,
-                        title: <?php echo (strpos($message, 'exitosamente') !== false) ? "'Éxito'" : "'Error'"; ?>,
-                        text: <?php echo json_encode($message); ?>,
-                        confirmButtonColor: '#007bff'
-                    });
-                });
-            </script>
-        <?php endif; ?>
+                            <form action="" method="post" enctype="multipart/form-data" class="row g-3">
 
-        <form action="" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Número:</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Ingrese el número del instrumento" required>
-            </div>
-            <div class="mb-3">
-                <label for="instrumento" class="form-label">Instrumento:</label>
-                <select name="instrumento" id="instrumento" class="form-select" required>
-                    <option value="">Seleccione un instrumento</option>
-                    <option value="Ordenanza">Ordenanza</option>
-                    <option value="Resolucion">Resolución</option>
-                    <option value="Declaracion">Declaración</option>
-                    <option value="Comunicacion">Comunicación</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="year" class="form-label">Año:</label>
-                <input type="text" name="year" id="year" class="form-control" placeholder="Ingrese el año" required>
-            </div>
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción:</label>
-                <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Ingrese una descripción (máximo 140 caracteres)" maxlength="140" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="pdf_file" class="form-label">Archivo PDF:</label>
-                <input type="file" name="pdf_file" id="pdf_file" class="form-control" accept="application/pdf" required>
-            </div>
-            <div class="mb-3">
-                <input type="checkbox" name="hasAnexos" id="hasAnexos" onclick="toggleAnexos()">
-                <label for="hasAnexos" class="form-label">¿El expediente tiene anexos?</label>
-            </div>
-            <div id="anexosSection" style="display: none;">
-                <div class="mb-3">
-                    <label for="anexos" class="form-label">Cargar Anexos (puede seleccionar varios archivos):</label>
-                    <input type="file" name="anexos[]" id="anexos" class="form-control" accept="application/pdf" multiple>
+                                <div class="col-md-4">
+                                    <label for="instrumento" class="form-label">Instrumento</label>
+                                    <select name="instrumento" id="instrumento" class="form-select" required>
+                                        <option value="">Seleccione un instrumento</option>
+                                        <option value="Ordenanza">Ordenanza</option>
+                                        <option value="Resolucion">Resolución</option>
+                                        <option value="Declaracion">Declaración</option>
+                                        <option value="Comunicacion">Comunicación</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="name" class="form-label">Número</label>
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="Ingrese el número del instrumento" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="year" class="form-label">Año</label>
+                                    <input type="text" name="year" id="year" class="form-control" placeholder="Ingrese el año" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="descripcion" class="form-label">Descripción</label>
+                                    <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Ingrese una descripción (máximo 140 caracteres)" maxlength="140" required></textarea>
+                                </div>
+  
+                        <div class="col-12">
+                            <div class="border rounded p-3 bg-dark-subtle">
+                                <div class="col-12">
+                                    <label for="pdf_file" class="form-label">Archivo PDF</label>
+                                    <input type="file" name="pdf_file" id="pdf_file" class="form-control" accept="application/pdf" required>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check mt-3">
+                                        <input type="checkbox" name="hasAnexos" id="hasAnexos" class="form-check-input" onclick="toggleAnexos()">
+                                        <label for="hasAnexos" class="form-check-label">Incluir anexos</label>
+                                    </div>
+                                </div>
+                                <div id="anexosSection" class="col-12" style="display: none;">
+                                    <div class="mb-0">
+                                        <label for="anexos" class="form-label mt-3">Cargar Anexos</label>
+                                        <input type="file" name="anexos[]" id="anexos" class="form-control" accept="application/pdf" multiple>
+                                        <small class="text-muted">Puedes seleccionar uno o varios archivos PDF para agregar como anexos.</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary w-100">Cargar Datos</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Cargar Datos</button>
-        </form>
-
-        <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
-        
+        </div>
     </div>
 <?php require_once 'vistas/Footer.php'; ?>
 
