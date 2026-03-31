@@ -64,7 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         error_log("DEBUG: Datos insertados en BD, ID: " . $expedienteId);
 
                         // Procesar anexos si existen
-                        if ($anexos && is_array($anexos['error'])) {
+                        $checkboxMarcado = isset($_POST['hasAnexos']);
+                        if ($checkboxMarcado && $anexos && is_array($anexos['error'])) {
                             foreach ($anexos['error'] as $index => $error) {
                                 if ($error === UPLOAD_ERR_OK) {
                                     $anexoExtension = strtolower(pathinfo($anexos['name'][$index], PATHINFO_EXTENSION));
