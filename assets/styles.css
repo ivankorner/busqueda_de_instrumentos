@@ -151,3 +151,6 @@ footer {
         height: 35px;
     }
 }
+.text-area-editar {
+    resize: none;
+}

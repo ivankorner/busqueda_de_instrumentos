@@ -148,9 +148,7 @@ $isLoggedIn = false;
     <link href="assets/styles.css" rel="stylesheet">
 </head>
 <body>
-    
-
-     <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <span class="navbar-brand d-flex align-items-center">
                 <img src="./inclusiones/logocde-b.png" alt="Logo CDE" width="120" height="80" class="me-2">    
@@ -164,7 +162,6 @@ $isLoggedIn = false;
             <?php endif; ?>
         </div>
     </nav>
-
     <div class="container mt-5">
         <div class="container-fluid mb-5 d-flex flex-column flex-grow-1">
             <div class="row justify-content-center">
@@ -185,9 +182,7 @@ $isLoggedIn = false;
                                     });
                                 </script>
                             <?php endif; ?>
-
                             <form action="" method="post" enctype="multipart/form-data" class="row g-3">
-
                                 <div class="col-md-4">
                                     <label for="instrumento" class="form-label">Instrumento</label>
                                     <select name="instrumento" id="instrumento" class="form-select" required>
@@ -210,30 +205,27 @@ $isLoggedIn = false;
                                     <label for="descripcion" class="form-label">Descripción</label>
                                     <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Ingrese una descripción (máximo 140 caracteres)" maxlength="140" required></textarea>
                                 </div>
-  
-                        <div class="col-12">
-                            <div class="border rounded p-3 bg-dark-subtle">
                                 <div class="col-12">
-                                    <label for="pdf_file" class="form-label">Archivo PDF</label>
-                                    <input type="file" name="pdf_file" id="pdf_file" class="form-control" accept="application/pdf" required>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-check mt-3">
-                                        <input type="checkbox" name="hasAnexos" id="hasAnexos" class="form-check-input" onclick="toggleAnexos()">
-                                        <label for="hasAnexos" class="form-check-label">Incluir anexos</label>
+                                    <div class="border rounded p-3 bg-dark-subtle">
+                                        <div class="col-12">
+                                            <label for="pdf_file" class="form-label">Archivo PDF</label>
+                                            <input type="file" name="pdf_file" id="pdf_file" class="form-control" accept="application/pdf" required>
+                                        </div>                               
+                                        <div class="col-12">
+                                            <div class="form-check mt-3">
+                                                <input type="checkbox" name="hasAnexos" id="hasAnexos" class="form-check-input" onclick="toggleAnexos()">
+                                                <label for="hasAnexos" class="form-check-label">Incluir anexos</label>
+                                            </div>
+                                        </div>
+                                        <div id="anexosSection" class="col-12" style="display: none;">
+                                            <div class="mb-0">
+                                                <label for="anexos" class="form-label mt-3">Cargar Anexos</label>
+                                                <input type="file" name="anexos[]" id="anexos" class="form-control" accept="application/pdf" multiple>
+                                                <small class="text-muted">Puedes seleccionar uno o varios archivos PDF para agregar como anexos.</small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div id="anexosSection" class="col-12" style="display: none;">
-                                    <div class="mb-0">
-                                        <label for="anexos" class="form-label mt-3">Cargar Anexos</label>
-                                        <input type="file" name="anexos[]" id="anexos" class="form-control" accept="application/pdf" multiple>
-                                        <small class="text-muted">Puedes seleccionar uno o varios archivos PDF para agregar como anexos.</small>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary w-100">Cargar Datos</button>
                                 </div>
@@ -245,7 +237,7 @@ $isLoggedIn = false;
             </div>
         </div>
     </div>
-<?php require_once 'vistas/Footer.php'; ?>
+    <?php require_once 'vistas/Footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -255,5 +247,6 @@ $isLoggedIn = false;
             anexosSection.style.display = hasAnexosCheckbox.checked ? 'block' : 'none';
         }
     </script>
+
 </body>
 </html>

@@ -170,97 +170,114 @@ try {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Registro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/styles.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-    <h1 class="mt-4">Editar Registro</h1>
-
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger">
-            <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-        </div>
-    <?php endif; ?>
-
-    <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
-        <div class="mb-3">
-            <label class="form-label">Número de Instrumento</label>
-            <input type="text" name="name" class="form-control" value="<?php echo htmlspecialchars($row['name']); ?>" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <input type="text" name="descripcion" class="form-control" value="<?php echo htmlspecialchars($row['descripcion']); ?>" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Tipo de Instrumento</label>
-            <select name="instrumento" class="form-select" required>
-                <?php
-                $instrumentos = ['Ordenanza','Resolucion','Declaracion','Comunicacion'];
-                $instActual = (string)$row['instrumento'];
-                echo '<option value="">Seleccione un instrumento</option>';
-                foreach ($instrumentos as $inst) {
-                    $sel = ($instActual === $inst) ? ' selected' : '';
-                    echo '<option value="'.htmlspecialchars($inst).'"'.$sel.'>'.htmlspecialchars($inst).'</option>';
-                }
-                ?>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Año</label>
-            <select name="year" class="form-select" required>
-                <option value="">Seleccione un año</option>
-                <?php
-                $currentYear = (int) date('Y');
-                $startYear = 1973;
-                $yearActual = (string)$row['year'];
-                for ($y = $currentYear; $y >= $startYear; $y--) {
-                    $sel = ($yearActual == (string)$y) ? ' selected' : '';
-                    echo '<option value="'.$y.'"'.$sel.'>'.$y.'</option>';
-                }
-                ?>
-            </select>
-        </div>
-
-        <hr>
-        <div class="mb-3">
-            <label class="form-label">Archivo principal (PDF)</label>
-            <?php if (!empty($row['file_path'])): ?>
-                <div class="mb-2">
-                    <a href="<?php echo htmlspecialchars($row['file_path']); ?>" target="_blank" class="btn btn-outline-primary btn-sm">Ver actual</a>
+    <?php require_once 'vistas/Header.php'; ?>
+    <div class="container mt-5">
+        <div class="container-fluid mb-5 d-flex flex-column flex-grow-1">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h1 class="mb-4 fs-4 text-center">Editar Registro</h1>
+                            <?php if (isset($_SESSION['error'])): ?>
+                                <div class="alert alert-danger">
+                                    <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+                                </div>
+                            <?php endif; ?>
+                            <form method="POST" enctype="multipart/form-data" class="row g-3">
+                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
+                                <div class="col-md-4">
+                                    <label class="form-label">Instrumento</label>
+                                    <select name="instrumento" class="form-select" required>
+                                        <?php
+                                        $instrumentos = ['Ordenanza','Resolucion','Declaracion','Comunicacion'];
+                                        $instActual = (string)$row['instrumento'];
+                                        echo '<option value="">Seleccione un instrumento</option>';
+                                        foreach ($instrumentos as $inst) {
+                                            $sel = ($instActual === $inst) ? ' selected' : '';
+                                            echo '<option value="'.htmlspecialchars($inst).'"'.$sel.'>'.htmlspecialchars($inst).'</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Número</label>
+                                    <input type="text" name="name" class="form-control" value="<?php echo htmlspecialchars($row['name']); ?>" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Año</label>
+                                    <select name="year" class="form-select" required>
+                                        <option value="">Seleccione un año</option>
+                                        <?php
+                                        $currentYear = (int) date('Y');
+                                        $startYear = 1973;
+                                        $yearActual = (string)$row['year'];
+                                        for ($y = $currentYear; $y >= $startYear; $y--) {
+                                            $sel = ($yearActual == (string)$y) ? ' selected' : '';
+                                            echo '<option value="'.$y.'"'.$sel.'>'.$y.'</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Descripción</label>
+                                    <textarea name="descripcion" class="form-control text-area-editar" rows="2" required><?php echo htmlspecialchars($row['descripcion']); ?></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <div class="border rounded p-3 bg-dark-subtle">   
+                                    <div class="mb-3">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <label class="form-label col-md-4">Archivo principal (PDF)</label>
+                                                <?php if (!empty($row['file_path'])): ?>
+                                                    <div class="mb-2">
+                                                        <a href="<?php echo htmlspecialchars($row['file_path']); ?>" target="_blank" class="btn btn-info btn-sm">Ver actual</a>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <input type="file" name="archivo" accept="application/pdf,.pdf" class="form-control">
+                                            <small class="text-muted">Dejar vacío para mantener el archivo actual.</small>
+                                        </div>
+                                        <hr>
+                                        <div class="mb-3">
+                                            <label class="form-label">Anexos (PDF)</label>
+                                            <?php if (!empty($anexos)): ?>
+                                                <ul class="list-group mb-2">
+                                                    <?php 
+                                                    $contador = 1;
+                                                    foreach ($anexos as $ax): ?>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            <a href="<?php echo htmlspecialchars($ax); ?>" target="_blank">Ver anexo <?php echo $contador++; ?></a>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" name="eliminar_anexos[]" value="<?php echo htmlspecialchars($ax); ?>" id="del_<?php echo md5($ax); ?>">
+                                                                <label class="form-check-label" for="del_<?php echo md5($ax); ?>">Eliminar</label>
+                                                            </div>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            <?php else: ?>
+                                                <p class="text-danger">No hay anexos cargados.</p>
+                                            <?php endif; ?>
+                                            <input type="file" name="anexos[]" accept="application/pdf,.pdf" class="form-control" multiple>
+                                            <small class="text-muted">Puedes seleccionar uno o varios archivos PDF para agregar como anexos.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary w-100">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <a href="busqueda.php" class="btn btn-secondary mt-3">Cancelar</a>
                 </div>
-            <?php endif; ?>
-            <input type="file" name="archivo" accept="application/pdf,.pdf" class="form-control">
-            <small class="text-muted">Dejar vacío para mantener el archivo actual.</small>
+            </div> 
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Anexos (PDF)</label>
-            <?php if (!empty($anexos)): ?>
-                <ul class="list-group mb-2">
-                    <?php foreach ($anexos as $ax): ?>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="<?php echo htmlspecialchars($ax); ?>" target="_blank">Ver anexo</a>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="eliminar_anexos[]" value="<?php echo htmlspecialchars($ax); ?>" id="del_<?php echo md5($ax); ?>">
-                                <label class="form-check-label" for="del_<?php echo md5($ax); ?>">Eliminar</label>
-                            </div>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p class="text-muted">No hay anexos cargados.</p>
-            <?php endif; ?>
-            <input type="file" name="anexos[]" accept="application/pdf,.pdf" class="form-control" multiple>
-            <small class="text-muted">Puedes seleccionar uno o varios archivos PDF para agregar como anexos.</small>
-        </div>
-
-        <button type="submit" class="btn btn-success">Guardar Cambios</button>
-        <a href="busqueda.php" class="btn btn-secondary">Cancelar</a>
-    </form>
-</div>
+    </div>
     <?php require_once 'vistas/Footer.php'; ?>
 </body>
 </html>
