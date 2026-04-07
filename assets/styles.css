@@ -151,6 +151,13 @@ footer {
         height: 35px;
     }
 }
+
 .text-area-editar {
     resize: none;
+}
+
+.container-2 {
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
 }

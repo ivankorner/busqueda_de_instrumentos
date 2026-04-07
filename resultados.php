@@ -198,8 +198,8 @@ if (($endPage - $startPage + 1) < $maxVisiblePages) {
     $startPage = max(1, $endPage - $maxVisiblePages + 1);
 }
 
-// Ordenar por número de instrumento (numéricamente) y luego por año descendente
-$sql .= " ORDER BY CAST(name AS UNSIGNED) ASC, CAST(year AS UNSIGNED) DESC";
+// Ordenar por año descendente y luego por número de instrumento (numéricamente)
+$sql .= " ORDER BY CAST(year AS UNSIGNED) DESC, CAST(name AS UNSIGNED) ASC";
 
 // Modificar consulta principal para paginación
 $sql .= " LIMIT :limit OFFSET :offset";
@@ -255,19 +255,8 @@ if (!empty($results)) {
         </div>
     </nav>
 
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="container mt-4 mb-5" >
+        <div class="container-2">
         <h1 class="mb-4"><?php echo htmlspecialchars($tituloBusqueda); ?></h1>
         <!-- Selector de cantidad de resultados -->
         <form method="get" class="mb-3 d-flex align-items-center" style="gap: 1rem;">
@@ -408,7 +397,7 @@ if (!empty($results)) {
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-        
+        </div>
         <a href="index.php" class="btn btn-secondary mt-3">Volver a la Búsqueda</a>
     </div>
 
