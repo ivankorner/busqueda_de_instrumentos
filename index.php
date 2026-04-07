@@ -27,6 +27,7 @@ if (!isset($_SESSION['captcha_busqueda']) || isset($_GET['new_captcha'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="assets/styles.css" rel="stylesheet">
 </head>
 
@@ -66,7 +67,28 @@ if (!isset($_SESSION['captcha_busqueda']) || isset($_GET['new_captcha'])) {
                 <div class="col-12 col-md-10 col-lg-8">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <h1 class="mb-4 fs-4 text-center">Búsqueda de Instrumentos</h1>
+                            <h1 class="mb-4 fs-4 text-center">Búsqueda de Instrumentos
+                            <?php
+                                $tituloTexto = "💡 ¿Cómo buscar? <span class='btn-close float-end' id='close-popover'></span>";
+                                $titulo = htmlspecialchars($tituloTexto, ENT_QUOTES, 'UTF-8');
+                                $ayudaTexto = "🔍 <b>Búsqueda:</b> Escribe una palabra o el número que buscas en el cuadro principal.<br>" .
+                                              "Tambien puedes usar el botón &quot;+ Filtros&quot; para elegir el número, año o tipo de documento (como Ordenanza o Resolución).<br><br>" .
+                                              "🤖 <b>Seguridad:</b> Antes de terminar, completa el Captcha (el cuadro de verificación de seguridad).<br><br>" .
+                                              "✅ <b>Finalizar:</b> Haz clic en el botón &quot;Buscar&quot; para ver los resultados.";
+                                    // Usamos ENT_QUOTES para asegurar que las comillas se escapen correctamente
+                                $ayuda = htmlspecialchars($ayudaTexto, ENT_QUOTES, 'UTF-8');
+                            ?>
+                            <button 
+                                type="button" 
+                                class="btn btn-link p-0 ms-1 text-decoration-none" 
+                                data-bs-toggle="popover" 
+                                data-bs-html="true"
+                                data-bs-title="<?php echo $titulo; ?>"
+                                data-bs-content="<?php echo $ayuda; ?>"
+                                style="line-height: 1;">
+                                <i class="fa-regular fa-circle-question" style="font-size: 1rem;"></i>
+                            </button>
+                            </h1>
                             <form action="resultados.php" method="get" id="form-busqueda">
                                 <div class="mb-4">
                                     <input type="text" name="global_search" id="global_search" class="form-control search-main" placeholder="Ingrese cualquier texto o número">
@@ -390,6 +412,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     actualizarTextoInstrumentos();
     actualizarTextoAnio();
+});
+</script>
+<script>
+  // Inicializar todos los popovers
+  const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+  const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl, {
+    trigger: 'focus' // Esto hace que se cierre al hacer clic fuera
+  }))
+  $(document).on("click", "#close-popover", function() {
+    $("#miBuscadorAyuda").popover("hide");
 });
 </script>
 </body>
