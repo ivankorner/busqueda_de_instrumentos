@@ -42,7 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error'] = "Todos los campos son obligatorios.";
         header('Location: editar.php?id=' . urlencode($id));
         exit;
-    }
+    } else if (!is_numeric($year) || $year < 1973 || $year > date('Y')) {
+        $_SESSION['error'] = "El año debe ser un número válido entre 1973 y " . date('Y') . ".";
+        header('Location: editar.php?id=' . urlencode($id));
+        exit;
+    } 
 
     // Obtener archivo actual para posible reemplazo
     $stmtCur = $pdo->prepare("SELECT file_path FROM datos WHERE id = :id");
@@ -173,6 +177,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Registro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link href="assets/styles.css" rel="stylesheet">
 </head>
 <body>
@@ -207,22 +212,11 @@ try {
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Número</label>
-                                    <input type="text" name="name" class="form-control" value="<?php echo htmlspecialchars($row['name']); ?>" required>
+                                    <input type="text" name="name" id="name" class="form-control search-secondary" value="<?php echo htmlspecialchars($row['name']); ?>" placeholder="Ingrese el número" inputmode="numeric" pattern="[0-9]*" maxlength="20" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label">Año</label>
-                                    <select name="year" class="form-select" required>
-                                        <option value="">Seleccione un año</option>
-                                        <?php
-                                        $currentYear = (int) date('Y');
-                                        $startYear = 1973;
-                                        $yearActual = (string)$row['year'];
-                                        for ($y = $currentYear; $y >= $startYear; $y--) {
-                                            $sel = ($yearActual == (string)$y) ? ' selected' : '';
-                                            echo '<option value="'.$y.'"'.$sel.'>'.$y.'</option>';
-                                        }
-                                        ?>
-                                    </select>
+                                    <label for="year" class="form-label">Año</label>
+                                    <input type="text" name="year" id="year" value="<?php echo htmlspecialchars($row['year']); ?>" class="form-control" placeholder="Seleccione el año" required>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Descripción</label>
@@ -279,5 +273,32 @@ try {
         </div>
     </div>
     <?php require_once 'vistas/Footer.php'; ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.es.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var numeroInput = document.getElementById('name');
+            if (numeroInput) {
+                numeroInput.addEventListener('input', function() {
+                    this.value = this.value.replace(/\D/g, '');
+                });
+            }
+        });
+
+        $(document).ready(function() {
+            $('#year').datepicker({
+                format: "yyyy",
+                viewMode: "years", 
+                minViewMode: "years",
+                autoclose: true,
+                language: "es",
+                // Límites:
+                startDate: "1973",      // Año mínimo permitido
+                endDate: new Date()     // No permite seleccionar más allá de la fecha de hoy
+            });
+        });
+
+    </script>
 </body>
 </html>
