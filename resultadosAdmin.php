@@ -292,11 +292,17 @@ if (!empty($results)) {
                                 </td>
                                 <td>
                                     <?php if (!empty($anexosByExpediente[$row['id']])): ?>
+        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Ver anexos">
+            <i class="fas fa-paperclip"></i> (<?php echo count($anexosByExpediente[$row['id']]); ?>)
+        </button>
+        <ul class="dropdown-menu">
                                         <?php foreach ($anexosByExpediente[$row['id']] as $idx => $anexoPath): ?>
-                                            <a href="<?php echo htmlspecialchars($anexoPath); ?>" target="_blank" class="btn btn-secondary btn-sm me-1" title="Ver anexo <?php echo $idx + 1; ?>">
-                                                <i class="fas fa-paperclip"></i> <?php echo $idx + 1; ?>
-                                            </a>
+
+
+
+                <li><a href="<?php echo htmlspecialchars($anexoPath); ?>" target="_blank" class="dropdown-item"><i class="fas fa-paperclip"></i> Anexo <?php echo $idx + 1; ?></a></li>
                                         <?php endforeach; ?>
+        </ul>
                                     <?php endif; ?>
                                 </td>
                                 <?php if ($isLoggedIn): ?>
