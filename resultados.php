@@ -12,13 +12,19 @@ try {
     die("Error al conectar a la base de datos: " . $e->getMessage());
 }
 
-// Verificar captcha solo en la búsqueda inicial.
-// En paginación/cambio de cantidad por página no se vuelve a mostrar captcha.
+// Verificar captcha solo cuando el formulario de búsqueda fue enviado con captcha.
 $isResultsNavigation = isset($_GET['page']) || isset($_GET['per_page']);
+$initialSearchWithCaptcha = isset($_GET['captcha_input']);
 
-if (!$isResultsNavigation) {
+$searchParams = $_GET;
+foreach (['captcha_input', 'new_captcha'] as $paramToRemove) {
+    if (isset($searchParams[$paramToRemove])) {
+        unset($searchParams[$paramToRemove]);
+    }
+}
+
+if ($initialSearchWithCaptcha) {
     if (
-        !isset($_GET['captcha_input']) ||
         !isset($_SESSION['captcha_busqueda']) ||
         strcasecmp($_GET['captcha_input'], $_SESSION['captcha_busqueda']) !== 0
     ) {
@@ -26,6 +32,15 @@ if (!$isResultsNavigation) {
         header('Location: index.php');
         exit;
     }
+
+    // Marcar captcha como usado para generar uno nuevo la próxima vez que se vuelva a buscar.
+    unset($_SESSION['captcha_busqueda']);
+
+    // Redirigir a la misma página de resultados sin el captcha en la URL
+    $queryString = http_build_query($searchParams);
+    $redirectUrl = 'resultados.php' . ($queryString ? "?$queryString" : '');
+    header('Location: ' . $redirectUrl);
+    exit;
 }
 
 // Generar nuevo captcha para la próxima búsqueda
@@ -37,8 +52,6 @@ function generarCaptcha($length = 4) {
     }
     return $captcha;
 }
-$_SESSION['captcha_busqueda'] = generarCaptcha();
-
 
 // Verificar que al menos un campo de búsqueda esté lleno
 $hasSearchCriteria = !empty($_GET['global_search']) || !empty($_GET['name']) || 
@@ -260,7 +273,7 @@ if (!empty($results)) {
         <h1 class="mb-4"><?php echo htmlspecialchars($tituloBusqueda); ?></h1>
         <!-- Selector de cantidad de resultados -->
         <form method="get" class="mb-3 d-flex align-items-center" style="gap: 1rem;">
-            <?php foreach ($_GET as $key => $value): ?>
+            <?php foreach ($searchParams as $key => $value): ?>
                 <?php if ($key !== 'per_page' && $key !== 'page'): ?>
                     <?php if (is_array($value)): ?>
                         <?php foreach ($value as $subValue): ?>
@@ -360,8 +373,7 @@ if (!empty($results)) {
                     <nav aria-label="Paginación de resultados">
                         <ul class="pagination mb-0 flex-nowrap">
                             <li class="page-item <?php echo $page <= 1 ? 'disabled' : ''; ?>">
-                                <a class="page-link" href="<?php echo $page <= 1 ? '#' : '?' . http_build_query(array_merge($_GET, ['page' => $page - 1, 'per_page' => $perPage])); ?>" <?php echo $page <= 1 ? 'tabindex="-1" aria-disabled="true"' : ''; ?>><</a>
-                            </li>
+                                <a class="page-link" href="<?php echo $page <= 1 ? '#' : '?' . http_build_query(array_merge($searchParams, ['page' => $page - 1, 'per_page' => $perPage])); ?>" <?php echo $page <= 1 ? 'tabindex="-1" aria-disabled="true"' : ''; ?>><</a>
 
                             <?php if ($startPage > 1): ?>
                                 <li class="page-item">
@@ -375,7 +387,7 @@ if (!empty($results)) {
                             <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
                                 <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
                                     <a class="page-link" href="?<?php
-                                        $query = $_GET;
+                                        $query = $searchParams;
                                         $query['page'] = $i;
                                         $query['per_page'] = $perPage;
                                         echo http_build_query($query);
@@ -388,12 +400,12 @@ if (!empty($results)) {
                                     <li class="page-item disabled"><span class="page-link">...</span></li>
                                 <?php endif; ?>
                                 <li class="page-item">
-                                    <a class="page-link" href="?<?php echo http_build_query(array_merge($_GET, ['page' => $totalPages, 'per_page' => $perPage])); ?>"><?php echo $totalPages; ?></a>
+                                    <a class="page-link" href="?<?php echo http_build_query(array_merge($searchParams, ['page' => $totalPages, 'per_page' => $perPage])); ?>"><?php echo $totalPages; ?></a>
                                 </li>
                             <?php endif; ?>
 
                             <li class="page-item <?php echo $page >= $totalPages ? 'disabled' : ''; ?>">
-                                <a class="page-link" href="<?php echo $page >= $totalPages ? '#' : '?' . http_build_query(array_merge($_GET, ['page' => $page + 1, 'per_page' => $perPage])); ?>" <?php echo $page >= $totalPages ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>></a>
+                                <a class="page-link" href="<?php echo $page >= $totalPages ? '#' : '?' . http_build_query(array_merge($searchParams, ['page' => $page + 1, 'per_page' => $perPage])); ?>" <?php echo $page >= $totalPages ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>></a>
                             </li>
                         </ul>
                     </nav>
